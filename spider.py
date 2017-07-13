@@ -2,7 +2,9 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
+from time import time
 import re
+import math
 
 
 # 连接mongodb
@@ -12,6 +14,7 @@ db = client.neteasemusicdata
 db_data = db.data
 
 # 获取个最热门歌手的主页链接
+start_time = time()
 
 
 def get_singer_url(accessurl):
@@ -91,3 +94,10 @@ for singer_url in singer_urls:
 
         print(db_data.inserted_id)
     conunt += 1
+# 计算运行时间
+end_time = time()
+timeuse = math.floor(end_time - start_time)
+sec = timeuse % 60
+minu = timeuse // 60 % 60
+hour = timeuse // 3600
+print('用时: ' + str(hour) + ' 小时 ' + str(minu) + ' 分 ' + str(sec) + ' 秒')
