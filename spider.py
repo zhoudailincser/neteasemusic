@@ -55,6 +55,7 @@ def get_singer_data(url):
     urlists = obj.findAll('tr')
     for urlist in urlists:
         song_name = urlist.b['title']  # 歌曲名字
+        print(singer_name + ' : ' + song_name)
         album_name = urlist.find(
             'a', href=re.compile(r'/album'))['title']  # 专辑名称
         song_url = urlist.b.parent['href']
@@ -68,7 +69,6 @@ def get_singer_data(url):
         album_img = song_obj.find('img', {'class': 'j-img'})['src']  # 歌曲专辑图片
         songs.append(
             {'songname': song_name, 'outerchain': out_chain, 'img': album_img, 'albumname': album_name})
-        i = i + 1
     driver.quit()
     return (singer_name, singer_pic, songs)
 
