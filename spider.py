@@ -63,7 +63,6 @@ def get_singer_data(url):
             'a', href=re.compile(r'/album'))['title']  # 专辑名称
         song_url = urlist.b.parent['href']
         id = idpattern.search(song_url).group()
-        out_chain = '//music.163.com/outchain/player?type=2&id=' + id + '&auto=1'  # 歌曲外链地址
         songurl = 'https://music.163.com/#' + song_url
         driver.get(songurl)
         driver.switch_to.frame(driver.find_element_by_name("contentFrame"))
@@ -71,7 +70,7 @@ def get_singer_data(url):
         song_obj = BeautifulSoup(html, 'lxml')
         album_img = song_obj.find('img', {'class': 'j-img'})['src']  # 歌曲专辑图片
         songs.append(
-            {'songname': song_name, 'outerchain': out_chain, 'img': album_img, 'albumname': album_name})
+            {'songname': song_name, 'img': album_img, 'albumname': album_name})
     driver.quit()
     return (singer_name, singer_pic, songs)
 
@@ -91,7 +90,6 @@ for singer_url in singer_urls:
         (singer_name, singer_pic, songs) = get_singer_data(url)
         db_data.insert(
             {'singer': singer_name, 'category': singer_category[conunt], 'singerpic': singer_pic, 'song': songs})
-
         print(db_data.inserted_id)
     conunt += 1
 # 计算运行时间
