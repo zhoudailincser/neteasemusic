@@ -83,14 +83,17 @@ singer_category = ['华语男歌手', '华语女歌手', '华语组合/乐队', 
                    '欧美女歌手', '欧美组合/乐队', '日本男歌手', '日本女歌手', '日本组合/乐队', '韩国男歌手', '韩国女歌手', '韩国组合/乐队']
 singer_urls = [''.join(x) for x in zip(singer_urls_head, singer_urls_id)]
 conunt = 0  # 计数器援引歌手分类下标
+# 给歌手一个id值
+singerid = 0
 for singer_url in singer_urls:
     singers_url = get_singer_url(singer_url)
     for url in singers_url:
         print(url, '\n')
         (singer_name, singer_pic, songs) = get_singer_data(url)
         db_data.insert(
-            {'singer': singer_name, 'category': singer_category[conunt], 'singerpic': singer_pic, 'song': songs})
+            {'singer': singer_name,'id':str(singerid).zfill(4), 'category': singer_category[conunt], 'singerpic': singer_pic, 'song': songs})
         print(db_data.inserted_id)
+        singerid += 1
     conunt += 1
 # 计算运行时间
 end_time = time()
